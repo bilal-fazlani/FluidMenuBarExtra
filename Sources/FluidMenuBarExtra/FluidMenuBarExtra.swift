@@ -265,8 +265,23 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                                                            screenClippingBehaviour: screenClippingBehaviour)
         }
 
-        return Settings {}.onChange(of: isInserted) { state.statusItem?.isVisible = $0 }
+        return Settings { SettingsSuppressorView() }.onChange(of: isInserted) { state.statusItem?.isVisible = $0 }
     }
+}
+
+private final class SettingsSuppressorNSView: NSView {
+    override func viewDidMoveToWindow() {
+        super.viewDidMoveToWindow()
+        guard let window else { return }
+        window.isRestorable = false
+        window.collectionBehavior = [.transient, .ignoresCycle]
+        window.orderOut(nil)
+    }
+}
+
+private struct SettingsSuppressorView: NSViewRepresentable {
+    func makeNSView(context: Context) -> SettingsSuppressorNSView { SettingsSuppressorNSView() }
+    func updateNSView(_ nsView: SettingsSuppressorNSView, context: Context) {}
 }
 
 /// Controls how the pop-up window is aligned relative to the menubar item.
