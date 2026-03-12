@@ -21,6 +21,7 @@ final class FluidMenuBarExtraStatusItem: NSObject, NSWindowDelegate {
     private var globalEventMonitor: EventMonitor?
 
     var alignment: PopUpAlignment
+    var resizeAnimationDuration: TimeInterval
     var screenClippingBehaviour: ScreenClippingBehaviour {
         didSet {
             setWindowFrame(animate: true)
@@ -56,6 +57,7 @@ final class FluidMenuBarExtraStatusItem: NSObject, NSWindowDelegate {
                         window: FluidMenuBarExtraWindow<Content>,
                         menu: NSMenu? = nil,
                         alignment: PopUpAlignment = .left,
+                        resizeAnimationDuration: TimeInterval = 0.2,
                         screenClippingBehaviour: ScreenClippingBehaviour = .reverseAlignment) {
         self._isInserted = foo
         self.window = window
@@ -73,6 +75,7 @@ final class FluidMenuBarExtraStatusItem: NSObject, NSWindowDelegate {
         }
 
         self.alignment = alignment
+        self.resizeAnimationDuration = resizeAnimationDuration
         self.screenClippingBehaviour = screenClippingBehaviour
         
         super.init()
@@ -248,7 +251,15 @@ final class FluidMenuBarExtraStatusItem: NSObject, NSWindowDelegate {
             return
         }
 
-        window.setFrame(newFrame, display: true, animate: animate)
+        if animate {
+            NSAnimationContext.runAnimationGroup { context in
+                context.duration = resizeAnimationDuration
+                context.timingFunction = CAMediaTimingFunction(name: .easeInEaseOut)
+                window.animator().setFrame(newFrame, display: true)
+            }
+        } else {
+            window.setFrame(newFrame, display: true, animate: false)
+        }
     }
 }
 

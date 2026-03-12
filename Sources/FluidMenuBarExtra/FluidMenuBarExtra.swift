@@ -45,6 +45,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
     private let animation: NSWindow.AnimationBehavior
     private let menu: NSMenu?
     private let alignment: PopUpAlignment
+    private let resizeAnimationDuration: TimeInterval
     private let screenClippingBehaviour: ScreenClippingBehaviour
     private let content: () -> Content
 
@@ -71,6 +72,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                  animation: NSWindow.AnimationBehavior = .none,
                  menu: NSMenu? = nil,
                  alignment: PopUpAlignment = .left,
+                 resizeAnimationDuration: TimeInterval = 0.2,
                  screenClippingBehaviour: ScreenClippingBehaviour = .reverseAlignment,
                  @ViewBuilder content: @escaping () -> Content) {
         self._isInserted = foo
@@ -80,6 +82,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
         self.animation = animation
         self.menu = menu
         self.alignment = alignment
+        self.resizeAnimationDuration = resizeAnimationDuration
         self.screenClippingBehaviour = screenClippingBehaviour
         self.content = content
 
@@ -109,6 +112,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                 animation: NSWindow.AnimationBehavior = .none,
                 menu: NSMenu? = nil,
                 alignment: PopUpAlignment = .left,
+                resizeAnimationDuration: TimeInterval = 0.2,
                 screenClippingBehaviour: ScreenClippingBehaviour = .reverseAlignment,
                 @ViewBuilder content: @escaping () -> Content) {
         self.init(title,
@@ -117,6 +121,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                   animation: animation,
                   menu: menu,
                   alignment: alignment,
+                  resizeAnimationDuration: resizeAnimationDuration,
                   screenClippingBehaviour: screenClippingBehaviour,
                   content: content)
     }
@@ -144,6 +149,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                 animation: NSWindow.AnimationBehavior = .none,
                 menu: NSMenu? = nil,
                 alignment: PopUpAlignment = .left,
+                resizeAnimationDuration: TimeInterval = 0.2,
                 screenClippingBehaviour: ScreenClippingBehaviour = .reverseAlignment,
                 @ViewBuilder content: @escaping () -> Content) {
         self.init(title,
@@ -152,6 +158,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                   animation: animation,
                   menu: menu,
                   alignment: alignment,
+                  resizeAnimationDuration: resizeAnimationDuration,
                   screenClippingBehaviour: screenClippingBehaviour,
                   content: content)
     }
@@ -179,6 +186,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                 animation: NSWindow.AnimationBehavior = .none,
                 menu: NSMenu? = nil,
                 alignment: PopUpAlignment = .left,
+                resizeAnimationDuration: TimeInterval = 0.2,
                 screenClippingBehaviour: ScreenClippingBehaviour = .reverseAlignment,
                 @ViewBuilder content: @escaping () -> Content) {
         self.init(title,
@@ -187,6 +195,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                   animation: animation,
                   menu: menu,
                   alignment: alignment,
+                  resizeAnimationDuration: resizeAnimationDuration,
                   screenClippingBehaviour: screenClippingBehaviour,
                   content: content)
     }
@@ -214,6 +223,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                 animation: NSWindow.AnimationBehavior = .none,
                 menu: NSMenu? = nil,
                 alignment: PopUpAlignment = .left,
+                resizeAnimationDuration: TimeInterval = 0.2,
                 screenClippingBehaviour: ScreenClippingBehaviour = .reverseAlignment,
                 @ViewBuilder content: @escaping () -> Content) {
         self.init(title,
@@ -222,6 +232,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                   animation: animation,
                   menu: menu,
                   alignment: alignment,
+                  resizeAnimationDuration: resizeAnimationDuration,
                   screenClippingBehaviour: screenClippingBehaviour,
                   content: content)
     }
@@ -238,6 +249,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
         if let statusItem = state.statusItem {
             statusItem.menu = menu
             statusItem.alignment = alignment
+            statusItem.resizeAnimationDuration = resizeAnimationDuration
             statusItem.screenClippingBehaviour = screenClippingBehaviour
             statusItem.window.animationBehavior = animation
         } else {
@@ -249,6 +261,7 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                                                                                            content: content),
                                                            menu: menu,
                                                            alignment: alignment,
+                                                           resizeAnimationDuration: resizeAnimationDuration,
                                                            screenClippingBehaviour: screenClippingBehaviour)
         }
 
