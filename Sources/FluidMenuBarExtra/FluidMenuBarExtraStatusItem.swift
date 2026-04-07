@@ -12,6 +12,14 @@ import SwiftUI
 /// An individual element displayed in the system menu bar that displays a window
 /// when triggered.
 final class FluidMenuBarExtraStatusItem: NSObject, NSWindowDelegate {
+    /// Registry of status items by title, for external icon updates.
+    private static var registry: [String: FluidMenuBarExtraStatusItem] = [:]
+
+    /// Look up a status item by its title.
+    public static func statusItem(titled title: String) -> FluidMenuBarExtraStatusItem? {
+        registry[title]
+    }
+
     let window: NSWindow
     var menu: NSMenu?
     @objc private let statusItem: NSStatusItem
@@ -79,6 +87,8 @@ final class FluidMenuBarExtraStatusItem: NSObject, NSWindowDelegate {
         self.screenClippingBehaviour = screenClippingBehaviour
         
         super.init()
+
+        Self.registry[title] = self
 
         assert(nil == window.statusItem)
         window.statusItem = self

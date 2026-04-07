@@ -253,6 +253,11 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
         state.statusItem?.updateImage(image)
     }
 
+    /// Update the icon of a FluidMenuBarExtra by its title, from anywhere.
+    public static func updateImage(_ image: NSImage, forTitle title: String) {
+        FluidMenuBarExtraStatusItem.statusItem(titled: title)?.updateImage(image)
+    }
+
     public var body: some Scene {
         if let statusItem = state.statusItem {
             statusItem.menu = menu
