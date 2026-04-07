@@ -156,6 +156,10 @@ final class FluidMenuBarExtraStatusItem: NSObject, NSWindowDelegate {
         }
     }
 
+    var button: NSStatusBarButton? {
+        statusItem.button
+    }
+
     func updateImage(_ image: NSImage) {
         statusItem.button?.image = image
     }

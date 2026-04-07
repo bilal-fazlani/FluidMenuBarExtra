@@ -245,6 +245,10 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
         state.statusItem?.dismissWindow()
     }
 
+    public var statusBarButton: NSStatusBarButton? {
+        state.statusItem?.button
+    }
+
     public func updateImage(_ image: NSImage) {
         state.statusItem?.updateImage(image)
     }
