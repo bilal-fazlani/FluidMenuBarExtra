@@ -156,6 +156,10 @@ final class FluidMenuBarExtraStatusItem: NSObject, NSWindowDelegate {
         }
     }
 
+    func updateImage(_ image: NSImage) {
+        statusItem.button?.image = image
+    }
+
     func windowDidBecomeKey(_ notification: Notification) {
         globalEventMonitor?.start()
         setButtonHighlighted(to: true)
