@@ -48,7 +48,6 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
     private let resizeAnimationDuration: TimeInterval
     private let screenClippingBehaviour: ScreenClippingBehaviour
     private let content: () -> Content
-    private let imageProvider: (() -> NSImage)?
 
     /// - Parameters:
     ///   - title: If no image is provided (`.none`), this is the text shown instead.  If an image is provided, only the image is shown but this title is used as the accessibility title (e.g. for screen readers).
@@ -80,7 +79,6 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
 
         self.title = title
         self.image = image
-        self.imageProvider = nil
         self.animation = animation
         self.menu = menu
         self.alignment = alignment
@@ -202,27 +200,6 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
                   content: content)
     }
 
-    public init(_ title: String,
-                imageProvider: @escaping () -> NSImage,
-                isInserted: Binding<Bool> = .constant(true),
-                animation: NSWindow.AnimationBehavior = .none,
-                menu: NSMenu? = nil,
-                alignment: PopUpAlignment = .left,
-                resizeAnimationDuration: TimeInterval = 0.2,
-                screenClippingBehaviour: ScreenClippingBehaviour = .reverseAlignment,
-                @ViewBuilder content: @escaping () -> Content) {
-        self._isInserted = isInserted
-        self.title = title
-        self.image = .direct(imageProvider())
-        self.imageProvider = imageProvider
-        self.animation = animation
-        self.menu = menu
-        self.alignment = alignment
-        self.resizeAnimationDuration = resizeAnimationDuration
-        self.screenClippingBehaviour = screenClippingBehaviour
-        self.content = content
-    }
-
     /// - Parameters:
     ///   - title: This is not shown in the menubar directly (only `image` is) but this is used as the accessibility title (e.g. for screen readers).
     ///   - image: The name of the system symbol image (a la SF Symbols) to use as the icon for the menubar item, in the menubar.
@@ -263,9 +240,13 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
     public func showWindow() {
         state.statusItem?.showWindow()
     }
-    
+
     public func closeWindow() {
         state.statusItem?.dismissWindow()
+    }
+
+    public func updateImage(_ image: NSImage) {
+        state.statusItem?.updateImage(image)
     }
 
     public var body: some Scene {
@@ -275,9 +256,6 @@ public struct FluidMenuBarExtra<Content: View>: Scene {
             statusItem.resizeAnimationDuration = resizeAnimationDuration
             statusItem.screenClippingBehaviour = screenClippingBehaviour
             statusItem.window.animationBehavior = animation
-            if let imageProvider {
-                statusItem.updateImage(imageProvider())
-            }
         } else {
             state.statusItem = FluidMenuBarExtraStatusItem(title: title,
                                                            image: image,
